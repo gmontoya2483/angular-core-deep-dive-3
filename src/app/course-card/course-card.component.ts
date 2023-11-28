@@ -1,16 +1,4 @@
-import {
-  AfterContentInit,
-  AfterViewInit,
-  Component,
-  ContentChildren,
-  ElementRef,
-  EventEmitter, Inject,
-  Input,
-  OnInit,
-  Output,
-  QueryList,
-  ViewEncapsulation
-} from '@angular/core';
+import {Attribute, ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Course} from '../model/course';
 import {CoursesService} from '../services/courses.service';
 
@@ -19,12 +7,18 @@ import {CoursesService} from '../services/courses.service';
     selector: 'course-card',
     templateUrl: './course-card.component.html',
     styleUrls: ['./course-card.component.css'],
-     providers: [CoursesService]
+    changeDetection: ChangeDetectionStrategy.OnPush
+     // providers: [CoursesService]
 })
 export class CourseCardComponent implements OnInit {
 
     @Input()
     course: Course;
+
+    // @Input()
+    // type: string;
+
+
 
     @Input()
     cardIndex: number;
@@ -33,11 +27,17 @@ export class CourseCardComponent implements OnInit {
     courseEmitter = new EventEmitter<Course>();
 
 
-    constructor(private courseService: CoursesService) {
+    constructor(private courseService: CoursesService,
+                @Attribute('type') private type: string) {
 
+      //@Attribute('type') private type: string  // is a performace optimization, change detection won't analyze its changes to re-render
+      // the view
     }
 
     ngOnInit() {
+
+      console.log(this.type);
+
 
     }
 
@@ -49,6 +49,8 @@ export class CourseCardComponent implements OnInit {
     }
 
 
+  onTitleChanged(newTitle: string) {
+      this.course.description = newTitle;
 
-
+  }
 }
