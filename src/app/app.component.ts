@@ -31,21 +31,11 @@ import {APP_CONFIG, AppConfig, CONFIG_TOKEN} from './config';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-
-  // providers: [
-  //   // {provide: CONFIG_TOKEN, useFactory: () => APP_CONFIG}
-  //   {provide: CONFIG_TOKEN, useValue: APP_CONFIG}
-  // ]
-  // providers: [
-  //   CoursesService
-  // ]
 })
 export class AppComponent implements OnInit {
 
-  // courses$: Observable<Course[]>;
-  // courses = COURSES;
+  courses = COURSES;
 
-  courses: Course[];
 
   constructor(private courseService: CoursesService,
               @Inject(CONFIG_TOKEN) private config: AppConfig) {
@@ -54,12 +44,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.courses$ = this.courseService.loadCourses();
-    this.courseService.loadCourses().subscribe(courses => {
-      this.courses = courses;
-
-
-    });
   }
 
 
@@ -73,6 +57,10 @@ export class AppComponent implements OnInit {
   }
 
   onEditCourse() {
+
+    this.courses[0] = {...this.courses[0], description: 'ngOnChanges'};
+
+    // this.courses = [undefined];
   //   const course = this.courses[0];
   //   const newCourse = {...course};
   //   newCourse.description = 'New value!!!';

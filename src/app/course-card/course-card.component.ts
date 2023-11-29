@@ -1,4 +1,15 @@
-import {Attribute, ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit,
+  Attribute,
+  ChangeDetectionStrategy,
+  Component, DoCheck,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
 import {Course} from '../model/course';
 import {CoursesService} from '../services/courses.service';
 
@@ -10,7 +21,7 @@ import {CoursesService} from '../services/courses.service';
     changeDetection: ChangeDetectionStrategy.OnPush
      // providers: [CoursesService]
 })
-export class CourseCardComponent implements OnInit {
+export class CourseCardComponent implements OnInit, OnDestroy, OnChanges, AfterContentChecked, AfterViewChecked, AfterContentInit, AfterViewInit, DoCheck {
 
     @Input()
     course: Course;
@@ -30,16 +41,37 @@ export class CourseCardComponent implements OnInit {
     constructor(private courseService: CoursesService,
                 @Attribute('type') private type: string) {
 
-      //@Attribute('type') private type: string  // is a performace optimization, change detection won't analyze its changes to re-render
-      // the view
+      console.log('Constructor...', this.course);
     }
 
     ngOnInit() {
 
-      console.log(this.type);
+      console.log('ngOnInit', this.course);
+
+      }
 
 
-    }
+  ngOnChanges(changes) {
+
+    console.log('ngOnChanges', changes);
+
+  }
+
+  ngAfterContentChecked(): void {
+      console.log('ngAfterContentChecked');
+  }
+
+  ngAfterViewChecked(): void {
+    console.log('ngAfterViewChecked');
+
+    // Set focus, scrolling, etc... DOM operations
+
+
+  }
+
+  ngOnDestroy() {
+    console.log('ngOnDestroy');
+  }
 
 
     onSaveClicked(description:string) {
@@ -53,4 +85,20 @@ export class CourseCardComponent implements OnInit {
       this.course.description = newTitle;
 
   }
+
+  ngAfterContentInit(): void {
+    console.log('ngAfterContentInit');
+  }
+
+  ngAfterViewInit(): void {
+    console.log('ngAfterViewInit');
+  }
+
+  ngDoCheck(): void {
+    console.log('ngDoCheck');
+  }
+
+
+
+
 }
