@@ -35,6 +35,7 @@ import {APP_CONFIG, AppConfig, CONFIG_TOKEN} from './config';
 export class AppComponent implements OnInit {
 
   courses = COURSES;
+  coursesTotal = this.courses.length;
 
 
   constructor(private courseService: CoursesService,
