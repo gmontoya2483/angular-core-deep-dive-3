@@ -4,7 +4,7 @@ import {
   Component, DoCheck,
   ElementRef,
   Inject,
-  InjectionToken,
+  InjectionToken, Injector,
   OnInit,
   QueryList,
   ViewChild,
@@ -18,6 +18,8 @@ import {Observable} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {CoursesService} from './courses/courses.service';
 import {APP_CONFIG, AppConfig, CONFIG_TOKEN} from './config';
+import {createCustomElement} from '@angular/elements';
+import {CourseTitleComponent} from './course-title/course-title.component';
 
 
 // function coursesServiceProvider(http: HttpClient): CoursesService {
@@ -39,12 +41,15 @@ export class AppComponent implements OnInit {
 
 
   constructor(private courseService: CoursesService,
-              @Inject(CONFIG_TOKEN) private config: AppConfig) {
+              @Inject(CONFIG_TOKEN) private config: AppConfig,
+              private injector: Injector) {
 
 
   }
 
   ngOnInit() {
+    const htmlElement = createCustomElement(CourseTitleComponent, {injector: this.injector});
+    customElements.define('course-title', htmlElement);
   }
 
 
